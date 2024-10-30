@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESP32 Sensor Data</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Temperature and Humidity</h1>
+  <p id="temperature">Temperature: --</p>
+  <p id="humidity">Humidity: --</p>
+
+  <script>
+    async function fetchData() {
+      try {
+        const response = await fetch("http://192.168.0.108/data"); // Replace with your ESP32 IP
+        const data = await response.json();
+        document.getElementById("temperature").innerText = `Temperature: ${data.temperature}°C`;
+        document.getElementById("humidity").innerText = `Humidity: ${data.humidity}%`;
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    setInterval(fetchData, 5000); // Fetch data every 5 seconds
+  </script>
+</body>
+</html>
