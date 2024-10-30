@@ -42,12 +42,16 @@ class ESP32Monitor {
         }
 
         try {
-            const response = await fetch(`http://${this.ip}/data`, {
+            // Using cors-anywhere as a proxy
+            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+            const targetUrl = `http://${this.ip}/data`;
+            
+            const response = await fetch(proxyUrl + targetUrl, {
                 method: 'GET',
                 headers: {
-                    'Accept': 'application/json'
-                },
-                mode: 'cors'
+                    'Accept': 'application/json',
+                    'Origin': window.location.origin
+                }
             });
 
             if (!response.ok) {
